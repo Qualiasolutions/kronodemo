@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kronospan AI BI Platform Requirements - Submitted Data</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #05377a, #0d5ba3);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(5, 55, 122, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .logo-section {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ffffff, #a8d8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 2px solid #05377a;
+            border-radius: 0;
+            box-shadow: 0 8px 25px rgba(5, 55, 122, 0.1);
+        }
+
+        .form-section h2 {
+            color: #05377a;
+            font-size: 1.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #05377a;
+            padding-bottom: 10px;
+        }
+
+        .form-section h3 {
+            color: #05377a;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #05377a;
+            font-size: 1.1em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #05377a;
+            border-radius: 0;
+            font-size: 16px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0d5ba3;
+            box-shadow: 0 0 10px rgba(5, 55, 122, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .required {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+
+        .report-template-section {
+            border-left: 4px solid #05377a;
+            padding-left: 20px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .status-banner {
+            background: #27ae60;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px 10px;
+            }
+
+            .form-section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">Kronospan</div>
+            </div>
+            <h1>AI Business Intelligence Platform</h1>
+            <p>Requirements Specification Form - Submitted Data</p>
+        </div>
+
+        <div class="status-banner">
+            ✓ FORM VERIFICATION: DATA ACCURACY CHECK IN PROGRESS
+        </div>
+        
+        <div style="background: #f39c12; color: white; padding: 15px; margin-bottom: 20px; font-weight: bold;">
+            ⚠️ VERIFICATION REQUIRED: Let me systematically check each field for 100% accuracy
+        </div>
+
+        <form id="requirementsForm">
+            <!-- Project Contact -->
+            <div class="form-section">
+                <h2>Project & Technical Contact</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactPerson">Primary Technical Contact <span class="required">*</span></label>
+                        <input type="text" id="contactPerson" name="contact_person" value="Christoforos Georgiou" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">User Department/Division <span class="required">*</span></label>
+                        <input type="text" id="department" name="department" value="MIS Manager" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current System & Data -->
+            <div class="form-section">
+                <h2>Current System & Data Details</h2>
+                <div class="form-group">
+                    <label for="dbDetails">Database System Details <span class="required">*</span></label>
+                    <input type="text" id="dbDetails" name="database_details" value="Oracle 19c" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="currentERP">Current ERP System</label>
+                    <input type="text" id="currentERP" name="current_erp" value="KSoft - in house developed platform" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="currentChallenges">Pain Points with Current Reporting</label>
+                    <textarea id="currentChallenges" name="current_challenges" readonly>Low responsiveness in new urgent requests
+Querying of complex data tables and return quality data
+C-level people always dependent on our department for report generation and send back for their use
+We need quick retrieval of info readily available in our database
+For future use - Statistics and Visualizations</textarea>
+                </div>
+            </div>
+
+            <!-- Core Requirements -->
+            <div class="form-section">
+                <h2>Core Requirements</h2>
+                <div class="form-group">
+                    <label for="userTypes">Primary User Roles for this Tool <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="executives" name="user_types[]" value="C-Level Executives"><label for="executives">C-Level Executives</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="managers" name="user_types[]" value="Department Managers"><label for="managers">Department Managers</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="analysts" name="user_types[]" value="Business Analysts"><label for="analysts">Business Analysts</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="financial" name="user_types[]" value="Financial Analysts" checked disabled><label for="financial">Financial Analysts ✓</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="other" name="user_types[]" value="Other"><label for="other">Other</label></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dataUpdateFreq">Required Data Freshness <span class="required">*</span></label>
+                    <select id="dataUpdateFreq" name="data_update_frequency" disabled>
+                        <option value="Daily" selected>Daily</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Report Generation -->
+            <div class="form-section">
+                <h2>Report Generation Specifications</h2>
+                <div class="report-template-section">
+                    <h3>Report Template #1</h3>
+                    <div class="form-group">
+                        <label for="template1Name">Report Name <span class="required">*</span></label>
+                        <input type="text" id="template1Name" name="template_1_name" value="Loan balances and repayments or exposure to different Bank Groups" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="template1Description">Key Metrics & Calculations <span class="required">*</span></label>
+                        <textarea id="template1Description" name="template_1_description" readonly>- Able to sum on a monthly/Quarterly/Yearly basis the Loan repayments/Loan Drawdowns/Accrued Interest/Paid interest
+- The above should be available on a random company selection/Group of companies - this is from Borrower perspective
+- Also should be able to export the facilities granted by random Bank branch/Bank Group - this is from Lender perspective
+- May also request to return only specific facility types( LTL, WCR, RC, SWAPS, LEASES, etc)</textarea>
+                    </div>
+                </div>
+
+                <div class="report-template-section">
+                    <h3>Report Template #2</h3>
+                    <div class="form-group">
+                        <label for="template2Name">Report Name <span class="required">*</span></label>
+                        <input type="text" id="template2Name" name="template_2_name" value="Cash Liquidity" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="template2Description">Key Metrics & Calculations <span class="required">*</span></label>
+                        <textarea id="template2Description" name="template_2_description" readonly>- view of Working Capital facilities per company/Country/CompanyGroup
+- view of variances in daily balances and outline differences over 100k</textarea>
+                    </div>
+                </div>
+
+                <div class="report-template-section">
+                    <h3>Report Template #3</h3>
+                    <div class="form-group">
+                        <label for="template3Name">Report Name <span class="required">*</span></label>
+                        <input type="text" id="template3Name" name="template_3_name" value="Directorships" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="template3Description">Key Metrics & Calculations <span class="required">*</span></label>
+                        <textarea id="template3Description" name="template_3_description" readonly>- Directorships of selected people as at a specific date
+- possibly here we will need to filter or group by Country/Company Group</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI & Querying -->
+            <div class="form-section">
+                <h2>AI-Powered Querying</h2>
+                <div class="form-group">
+                    <label for="queryTypes">Example Natural Language Questions</label>
+                    <textarea id="queryTypes" name="query_types" readonly>- give me the accrued interest of 3rd party loans of company A and company B
+- Give me the loan Balance and Outstanding amount of all leases of Group A as at dd/mm/yyyy
+- loan Repayments and Drawdowns for the current and following 5 Financial years
+- Give me all loans granted by BankGroup A(this is a group of banks like ERSTE lets say), here further filtering may be requested by Country or to CompanyGroup X. Report generation for these should also be able to provide a report as per user needs - ie Companies to go in lines and all of the requested data to flow in the columns. here we will need a lot of flexibility, the more the better.
+- All directorships of Person X as at dd/mm/yyyy
+- Directors of all CY entities as at end of current and previous financial years.
+- All changes in Directorships for the period from:dd/mm/yyyy to:dd/mm/yyyy
+- Working capital Facilities by by Country/Company Group as well as Cash balances and Available Undrawn funds
+- Variance of Cash Balances and Available Undrawn funds on a monthly level to assess trends such as seasonality etc.
+
+We will definitely need to start with the above. We can then visit some options form your side for future and further use.</textarea>
+                </div>
+            </div>
+
+            <!-- Security & Access -->
+            <div class="form-section">
+                <h2>Security & Access Control</h2>
+                <div class="form-group">
+                    <label for="authMethod">User Authentication Method <span class="required">*</span></label>
+                    <select id="authMethod" name="auth_method" disabled>
+                        <option value="Custom" selected>Application-level user management</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dataAccess">Data Access Control Needs</label>
+                    <textarea id="dataAccess" name="data_access_details" readonly>Admin level - for granting access rights and access and be able to query all available data
+User level - normal users having access or be able to query on set of companies
+Manager level - like super users having access and be able to query all available data</textarea>
+                </div>
+            </div>
+            
+            <!-- Technical & Environment -->
+            <div class="form-section">
+                <h2>Technical Environment</h2>
+                <div class="form-group">
+                    <label for="serverSpecs">Available On-Premise Server Specifications</label>
+                    <textarea id="serverSpecs" name="server_specs" readonly>2 * GDX Spark run on Ubuntu:
+-CPU - 20 core Arm,10 Cortex-X925 + 10 Cortex-A725
+-System Memory- 128GB LPDDR5x, unified system memory
+-Storage - 4 TB NVME.M2 with self-encryption</textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="osPref">Preferred Server OS</label>
+                    <select id="osPref" name="os_preference" disabled>
+                        <option value="Ubuntu" selected>Ubuntu Linux</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

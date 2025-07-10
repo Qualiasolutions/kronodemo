@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: kronospan-ai-bi-platform
+  
+  # H2 Database Configuration (In-Memory for Demo)
+  datasource:
+    url: jdbc:h2:mem:kronospandb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+    # Connection pool settings for limited memory
+    hikari:
+      maximum-pool-size: 5  # Limit connections
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+  
+  # JPA Configuration
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop  # For demo - creates schema on startup
+    show-sql: false  # Set to true for debugging
+    properties:
+      hibernate:
+        format_sql: true
+        # Batch processing for better performance
+        jdbc:
+          batch_size: 25
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        # Second level cache disabled to save memory
+        cache:
+          use_second_level_cache: false
+  
+  # H2 Console (for development)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false  # Security: only localhost
+  
+  # Server Configuration
+  server:
+    port: 8080
+    compression:
+      enabled: true  # Enable response compression
+      mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    # Jetty specific settings for memory optimization
+    jetty:
+      threads:
+        max: 50  # Limit max threads
+        min: 5
+        idle-timeout: 60000
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.kronospan: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: WARN  # Reduce Hibernate logging
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Application-specific Configuration
+kronospan:
+  ai:
+    # Context Engineering settings
+    context:
+      max-tokens: 4096  # Limit context window
+      business-terms-cache-size: 1000
+      query-cache-enabled: true
+      query-cache-size: 100
+    
+    # Performance settings
+    performance:
+      query-timeout-seconds: 3  # Sub-3-second requirement
+      max-concurrent-queries: 5  # Limit concurrent processing
+      
+    # Data import settings
+    import:
+      batch-size: 100  # Process in small batches
+      excel-streaming-enabled: true  # Stream large Excel files
+      pdf-memory-limit-mb: 50  # Limit PDF processing memory
