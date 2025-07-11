@@ -1,6 +1,7 @@
 package com.kronospan.aibi.controller;
 
 import com.kronospan.aibi.service.importer.ExcelImportService;
+import com.kronospan.aibi.service.importer.PDFImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,9 @@ public class DataImportController {
     @Autowired
     private ExcelImportService excelImportService;
     
+    @Autowired
+    private PDFImportService pdfImportService;
+    
     /**
      * Import all Kronospan data
      * POST /api/v1/import/all
@@ -38,12 +42,18 @@ public class DataImportController {
             // Import LTL data
             excelImportService.importLTLData();
             
+            // Import Cyprus entity reports
+            pdfImportService.importCyprusEntityReports();
+            
+            // Import financial statements
+            pdfImportService.importFinancialStatements();
+            
             long endTime = System.currentTimeMillis();
             
             response.put("status", "SUCCESS");
             response.put("message", "All Kronospan data imported successfully");
             response.put("processing_time_ms", endTime - startTime);
-            response.put("imported_datasets", new String[]{"WCR_2024", "WCR_2023", "LTL_Data"});
+            response.put("imported_datasets", new String[]{"WCR_2024", "WCR_2023", "LTL_Data", "Cyprus_Reports", "Financial_Statements"});
             
             return ResponseEntity.ok(response);
             

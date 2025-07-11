@@ -93,35 +93,61 @@ CREATE TABLE directors (
 
 ## Build Commands
 
-**Note:** This repository currently contains only data and documentation. When implementing the application:
-
 ```bash
 # Backend (Spring Boot + Maven)
 mvn clean install          # Build the application
-mvn spring-boot:run       # Run development server
+mvn spring-boot:run       # Run development server (port 8080)
 mvn test                  # Run unit tests
-mvn package               # Create WAR file for Tomcat deployment
+mvn package               # Create JAR file for deployment
 
-# Frontend (React)
-npm install               # Install dependencies
-npm start                 # Development server
-npm run build            # Production build
-npm test                 # Run tests
-npm run lint             # Code linting
+# Development workflow
+mvn clean compile         # Compile only
+mvn test-compile          # Compile tests
+mvn clean test            # Run tests with clean build
 
-# Database
+# Database Access
 # H2 console: http://localhost:8080/h2-console
-# JDBC URL: jdbc:h2:./database
+# JDBC URL: jdbc:h2:mem:kronospandb
+# Username: sa
+# Password: (empty)
+
+# API Endpoints
+# Health check: GET http://localhost:8080/api/v1/query/health
+# Process query: POST http://localhost:8080/api/v1/query/process
+# Demo scenarios: GET http://localhost:8080/api/v1/query/demo/{1-5}
+# Business terms: GET http://localhost:8080/api/v1/query/business-terms
+# Async processing: POST http://localhost:8080/api/v1/query/process-async
 ```
+
+## Code Architecture
+
+**Package Structure:**
+- `com.kronospan.aibi.controller`: REST API controllers
+- `com.kronospan.aibi.model`: JPA entity models (WorkingCapitalFacility, GroupCompany, Director, etc.)
+- `com.kronospan.aibi.repository`: Spring Data JPA repositories
+- `com.kronospan.aibi.service.importer`: Data import services (Excel, PDF processing)
+- `com.kronospan.aibi.context`: Core Context Engineering components
+
+**Key Components:**
+- `BusinessContext.java`: Context Engineering core - business terminology, entity mappings
+- `QueryProcessor.java`: Natural language to SQL conversion engine
+- `QueryController.java`: Main REST API for query processing
+- `ExcelImportService.java`: Apache POI-based Excel data import
+
+**Context Engineering Approach:**
+- Business terminology dictionary for domain-specific terms (WCR, LTL, PKO BP)
+- Entity recognition patterns for companies, banks, currencies
+- Query intent classification for different report types
+- Cached business context for performance
 
 ## Development Workflow
 
-1. **Data Import Priority:** Start with Excel/PDF data processing
-2. **AI Query Engine:** Implement text-to-SQL with business terminology
-3. **API Development:** Build Spring Boot REST endpoints
-4. **Frontend:** Create executive-grade React dashboard
-5. **Report Engine:** Multi-page PDF generation with charts
-6. **Performance:** Optimize for sub-3-second response times
+1. **Context Engineering:** Update BusinessContext.java with new terminology
+2. **Data Models:** Add/modify JPA entities in model package
+3. **Import Services:** Extend ExcelImportService for new data sources
+4. **Query Processing:** Enhance QueryProcessor for new query patterns
+5. **API Endpoints:** Add controllers for new functionality
+6. **Performance:** Monitor sub-3-second response requirement
 
 ## Business Context
 
@@ -143,5 +169,48 @@ npm run lint             # Code linting
 
 - Data files: `/Demo_data_1/`, `/Demo_data_2/`, `/data-sources/`
 - Master context: `/MASTER_CONTEXT.md`
-- Database: `/database.db` (currently empty)
-- Source code: To be created in standard Maven/React structure
+- Database: `/database.db` (H2 file-based storage)
+- Source code: `/src/main/java/com/kronospan/aibi/`
+- Configuration: `/src/main/resources/application.yml`
+- Maven config: `/pom.xml`
+
+## Performance Configuration
+
+The application is optimized for limited memory environments:
+- Jetty server instead of Tomcat (lighter footprint)
+- Connection pool limited to 5 connections
+- JVM settings: `-Xmx2g -Xms512m -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication`
+- Hibernate batch processing enabled (batch size: 25)
+- Query timeout: 3 seconds (configurable in application.yml)
+- Async task executor limited to 2-4 threads for resource conservation
+- Thread pool configuration in KronospanAiBiApplication.java:36
+
+## Current Implementation Status
+
+**Completed Components:**
+- Spring Boot application structure with Java 8 compatibility
+- Basic Context Engineering framework in BusinessContext.java:18
+- Query processing pipeline in QueryProcessor.java
+- REST API endpoints in QueryController.java:19
+- H2 database configuration with memory optimization
+- Business terminology dictionary with Kronospan-specific terms
+- Entity recognition for companies, banks, persons, countries
+- Query intent classification (filter, comparison, threshold, report generation)
+- Async query processing capabilities
+- Health check and demo scenario endpoints
+
+**Pending Implementation:**
+- Data import services for Excel WCR/LTL files
+- PDF processing for Cyprus entity reports and financial statements
+- Document management system for NDA/legal documents
+- Multi-page report generation engine
+- Frontend React dashboard
+- Complete database schema implementation
+- Multi-currency calculation engine
+- Performance optimization for sub-3-second responses
+
+**Key Architecture Decisions Made:**
+- Context Engineering approach for business terminology mapping
+- Async processing with limited thread pools for memory efficiency
+- Jetty over Tomcat for reduced memory footprint
+- Concurrent data structures for thread-safe context operations

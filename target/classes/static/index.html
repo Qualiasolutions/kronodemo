@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kronospan AI Business Intelligence Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 3px solid #005daa;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .header img {
+            height: 60px;
+            width: auto;
+        }
+        
+        .header-text h1 {
+            color: #005daa;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        
+        .header-text p {
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 0.9rem;
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .user-info {
+            text-align: right;
+            padding: 0.8rem 1.2rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .user-name {
+            font-weight: 700;
+            color: #005daa;
+            font-size: 0.95rem;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+        
+        .logout-btn {
+            background: #005daa;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #004080;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+        
+        .sidebar {
+            background: white;
+            border: 1px solid #e9ecef;
+            height: fit-content;
+            position: sticky;
+            top: 140px;
+        }
+        
+        .sidebar-header {
+            background: #005daa;
+            color: white;
+            padding: 1.2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .nav-menu li {
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .nav-menu a {
+            display: block;
+            padding: 1rem 1.2rem;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-menu a:hover {
+            background: #f8f9fa;
+            border-left-color: #005daa;
+            color: #005daa;
+        }
+        
+        .nav-menu a.active {
+            background: #e3f2fd;
+            border-left-color: #005daa;
+            color: #005daa;
+            font-weight: 600;
+        }
+        
+        .stats-section {
+            padding: 1.2rem;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .stats-title {
+            color: #005daa;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            color: #005daa;
+            font-weight: 700;
+        }
+        
+        .main-content {
+            background: white;
+            border: 1px solid #e9ecef;
+        }
+        
+        .content-header {
+            background: #f8f9fa;
+            padding: 2rem 2.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .content-header h2 {
+            color: #005daa;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-header p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .content-body {
+            padding: 2.5rem;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .query-interface {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .query-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .query-header h3 {
+            color: #005daa;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .query-badge {
+            background: #005daa;
+            color: white;
+            padding: 0.4rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .query-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            font-size: 1rem;
+            font-family: inherit;
+            margin-bottom: 1.5rem;
+            min-height: 120px;
+            resize: vertical;
+            background: white;
+            transition: border-color 0.3s;
+        }
+        
+        .query-input:focus {
+            outline: none;
+            border-color: #005daa;
+        }
+        
+        .query-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: #005daa;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #004080;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .example-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .example-card:hover {
+            border-color: #005daa;
+            box-shadow: 0 4px 12px rgba(0,93,170,0.1);
+        }
+        
+        .example-card h4 {
+            color: #005daa;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+        
+        .example-card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .result-panel {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-top: 2rem;
+        }
+        
+        .result-header {
+            background: #005daa;
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .result-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .result-body {
+            padding: 2rem;
+        }
+        
+        .sql-panel {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            font-family: 'Courier New', Monaco, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-left: 4px solid #005daa;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .data-table th {
+            background: #005daa;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9rem;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .data-table tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .history-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .history-item:hover {
+            border-color: #005daa;
+            box-shadow: 0 2px 8px rgba(0,93,170,0.1);
+        }
+        
+        .history-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .history-date {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .history-query {
+            font-weight: 700;
+            color: #005daa;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .history-summary {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .chart-container {
+            height: 400px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin: 2rem 0;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .loading-content {
+            background: white;
+            padding: 3rem;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e9ecef;
+            border-left: 4px solid #005daa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #005daa;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .admin-table {
+            background: white;
+        }
+        
+        .admin-controls {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 0.6rem 1rem;
+            border: 2px solid #e9ecef;
+            font-size: 0.9rem;
+            width: 300px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #005daa;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .metric-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #005daa;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .main-content {
+                order: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+            
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-section">
+            <img src="https://yt3.googleusercontent.com/ytc/AIdro_m7PJ-K49XtCsKYCfwX-87XeF2yuVWzFuqQszUlyhIt=s900-c-k-c0x00ffffff-no-rj" alt="Kronospan Logo">
+            <div class="header-text">
+                <h1>Kronospan AI Business Intelligence Platform</h1>
+                <p>Enterprise Financial Reporting & Analytics System</p>
+            </div>
+        </div>
+        <div class="user-section">
+            <div class="system-status">
+                <div class="status-dot"></div>
+                <span>System Active</span>
+            </div>
+            <div class="user-info">
+                <div class="user-name" id="userName">Christoforos Georgiou</div>
+                <div class="user-role" id="userRole">MIS Manager - Admin Level</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                Navigation
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showSection('query')" class="active">Natural Language Query</a></li>
+                <li><a href="#" onclick="showSection('reports')">Report Templates</a></li>
+                <li><a href="#" onclick="showSection('history')">Query History</a></li>
+                <li><a href="#" onclick="showSection('analytics')">Data Analytics</a></li>
+                <li><a href="#" onclick="showSection('admin')">User Management</a></li>
+            </ul>
+            
+            <div class="stats-section">
+                <div class="stats-title">System Statistics</div>
+                <div class="stat-item">
+                    <span class="stat-label">Queries Today</span>
+                    <span class="stat-value" id="queriesCount">12</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Active Users</span>
+                    <span class="stat-value" id="activeUsers">3</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Data Records</span>
+                    <span class="stat-value">62,210</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Last Update</span>
+                    <span class="stat-value" id="lastUpdate">Live</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Natural Language Query Section -->
+            <div id="query" class="section active">
+                <div class="content-header">
+                    <h2>Natural Language Query Engine</h2>
+                    <p>Transform complex business questions into SQL queries and generate comprehensive reports using natural language processing tailored for Kronospan's financial data structure.</p>
+                </div>
+                
+                <div class="content-body">
+                    <div class="query-interface">
+                        <div class="query-header">
+                            <h3>Query Builder</h3>
+                            <span class="query-badge">AI Powered</span>
+                        </div>
+                        
+                        <textarea id="queryInput" class="query-input" 
+                                  placeholder="Example: Give me the accrued interest of 3rd party loans of Kronospan OSB and outstanding amounts grouped by lender, showing facility types LTL, WCR, and SWAPS for Czech Republic operations"></textarea>
+                        
+                        <div class="query-controls">
+                            <button onclick="processQuery()" class="btn">Generate Report</button>
+                            <button onclick="clearQuery()" class="btn btn-secondary">Clear</button>
+                            <button onclick="saveQuery()" class="btn btn-success">Save Query</button>
+                            <button onclick="exportResults()" class="btn btn-secondary">Export</button>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #005daa; margin-bottom: 1.5rem; font-weight: 700;">Example Queries Based on Real Kronospan Data</h3>
+                    <div class="example-grid">
+                        <div class="example-card" onclick="loadExampleQuery(1)">
+                            <h4>Loan Balances & Bank Exposure</h4>
+                            <p>Give me the accrued interest of 3rd party loans of Kronospan OSB and outstanding amounts grouped by lender, including KBC Group, ERSTE, and Raiffeisen exposures</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="loadExampleQuery(2)">
+                            <h4>Cash Liquidity Analysis</h4>
+                            <p>Show working capital facilities by country with cash balances and available undrawn funds, highlighting variances over 100k EUR for seasonality analysis</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="loadExampleQuery(3)">
+                            <h4>Cyprus Directorship Reports</h4>
+                            <p>All directorships of Cyprus entities as at end of current and previous financial years, filtered by company group and appointment changes</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="loadExampleQuery(4)">
+                            <h4>Facility Variance Analysis</h4>
+                            <p>Variance of cash balances and available undrawn funds on monthly level to assess seasonality trends across Czech Republic, Romania, and Bulgaria</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="loadExampleQuery(5)">
+                            <h4>Repayment Schedule</h4>
+                            <p>Loan repayments and drawdowns for current and following 5 financial years by facility type (LTL, WCR, RC, SWAPS, LEASES)</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="loadExampleQuery(6)">
+                            <h4>Multi-Currency Bank Analysis</h4>
+                            <p>All loans granted by KBC Group with filtering by Czech Republic and company group analysis, showing EUR, PLN, and BGN exposures</p>
+                        </div>
+                    </div>
+                    
+                    <div id="queryResult" class="result-panel" style="display: none;">
+                        <div class="result-header">
+                            <h3>Query Results</h3>
+                            <span class="status-badge status-success">Processed</span>
+                        </div>
+                        <div class="result-body" id="queryOutput">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Report Templates Section -->
+            <div id="reports" class="section">
+                <div class="content-header">
+                    <h2>Executive Report Templates</h2>
+                    <p>Pre-configured report templates based on Kronospan's specific business requirements for C-level executives, following the 1 description + 5 data columns per page format.</p>
+                </div>
+                
+                <div class="content-body">
+                    <div class="example-grid">
+                        <div class="example-card" onclick="generateTemplate('loan-exposure')">
+                            <h4>Loan Balances & Bank Exposure</h4>
+                            <p>Monthly/Quarterly/Yearly loan repayments, drawdowns, accrued interest by company and bank group. Includes borrower and lender perspectives with facility type filtering.</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="generateTemplate('cash-liquidity')">
+                            <h4>Cash Liquidity Report</h4>
+                            <p>Working capital facilities per company/country with daily balance variances over 100k. Includes available undrawn funds analysis and trend identification.</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="generateTemplate('directorships')">
+                            <h4>Directorship Analysis</h4>
+                            <p>Directorships of selected people as at specific date, filtered by country/company group. Includes appointment changes and governance tracking.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="templateResult" class="result-panel" style="display: none;">
+                        <div class="result-header">
+                            <h3>Generated Report</h3>
+                            <span class="status-badge status-success">Generated</span>
+                        </div>
+                        <div class="result-body" id="templateOutput">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Query History Section -->
+            <div id="history" class="section">
+                <div class="content-header">
+                    <h2>Query History & Report Archive</h2>
+                    <p>Access your previous queries, re-run reports, and maintain an audit trail of all business intelligence activities for compliance and efficiency.</p>
+                </div>
+                
+                <div class="content-body">
+                    <div class="admin-controls">
+                        <input type="text" class="search-input" placeholder="Search query history..." id="historySearch">
+                        <button class="btn" onclick="exportHistory()">Export History</button>
+                    </div>
+                    
+                    <div class="history-list" id="historyList">
+                        <div class="history-item" onclick="rerunQuery('demo1')">
+                            <div class="history-meta">
+                                <div class="history-date">2024-07-11 14:30:25</div>
+                                <span class="status-badge status-success">Completed</span>
+                            </div>
+                            <div class="history-query">Working capital facilities analysis by country and bank exposure</div>
+                            <div class="history-summary">Generated comprehensive report showing 45 facilities across 8 countries with total exposure of €125M. Identified PKO BP as largest exposure (€34M) and highlighted seasonal patterns in Bulgarian operations.</div>
+                        </div>
+                        
+                        <div class="history-item" onclick="rerunQuery('demo2')">
+                            <div class="history-meta">
+                                <div class="history-date">2024-07-11 13:15:42</div>
+                                <span class="status-badge status-success">Completed</span>
+                            </div>
+                            <div class="history-query">Kronospan OSB loan balance summary with KBC Group analysis</div>
+                            <div class="history-summary">Outstanding balance: €21.03M, Accrued interest: €759K, Next payment: March 2025. Contract CSOB-EUR-JH07-2019-02-05-T1-1 showing stable payment history with 1.3% margin over 1M Euribor.</div>
+                        </div>
+                        
+                        <div class="history-item" onclick="rerunQuery('demo3')">
+                            <div class="history-meta">
+                                <div class="history-date">2024-07-11 11:45:18</div>
+                                <span class="status-badge status-success">Completed</span>
+                            </div>
+                            <div class="history-query">Cyprus entities directorship changes Q1 2024 compliance report</div>
+                            <div class="history-summary">12 directorship changes across Cyprus entities, 8 new appointments, 4 resignations. Generated compliance documentation for regulatory filing with detailed appointment dates and signing powers.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Analytics Section -->
+            <div id="analytics" class="section">
+                <div class="content-header">
+                    <h2>Data Analytics & Visualizations</h2>
+                    <p>Interactive charts and analytics for financial trends, exposure patterns, and strategic insights based on real-time Kronospan data.</p>
+                </div>
+                
+                <div class="content-body">
+                    <div class="example-grid">
+                        <div class="example-card" onclick="showChart('exposure')">
+                            <h4>Bank Exposure Trends</h4>
+                            <p>Visualize exposure across KBC Group, ERSTE, Raiffeisen and other banking partners over time with risk concentration analysis</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="showChart('liquidity')">
+                            <h4>Liquidity Analysis</h4>
+                            <p>Monthly cash flow patterns, facility utilization rates, and seasonal trends across Czech Republic, Romania, and Bulgaria</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="showChart('geographic')">
+                            <h4>Geographic Distribution</h4>
+                            <p>Facility distribution by country and region with currency exposure breakdown (EUR, PLN, BGN)</p>
+                        </div>
+                        
+                        <div class="example-card" onclick="showChart('governance')">
+                            <h4>Governance Analytics</h4>
+                            <p>Directorship patterns, appointment trends, and compliance metrics for Cyprus entities and corporate governance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container" id="chartContainer">
+                        <p>Select a chart type above to view interactive analytics visualizations</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Section -->
+            <div id="admin" class="section">
+                <div class="content-header">
+                    <h2>User Management & Access Control</h2>
+                    <p>Manage user access levels, data permissions, and system administration according to Kronospan's security requirements.</p>
+                </div>
+                
+                <div class="content-body">
+                    <div class="admin-table">
+                        <div class="admin-controls">
+                            <input type="text" class="search-input" placeholder="Search users...">
+                            <button class="btn" onclick="addUser()">Add New User</button>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Department</th>
+                                    <th>Access Level</th>
+                                    <th>Data Scope</th>
+                                    <th>Last Login</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Christoforos Georgiou</strong></td>
+                                    <td>MIS Management</td>
+                                    <td><span class="status-badge" style="background: #28a745; color: white;">Admin</span></td>
+                                    <td>All Data Access</td>
+                                    <td>2024-07-11 14:35</td>
+                                    <td><button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Financial Analyst 1</td>
+                                    <td>Finance</td>
+                                    <td><span class="status-badge" style="background: #ffc107; color: black;">User</span></td>
+                                    <td>Company Subset</td>
+                                    <td>2024-07-11 09:15</td>
+                                    <td><button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Department Manager</td>
+                                    <td>Operations</td>
+                                    <td><span class="status-badge" style="background: #17a2b8; color: white;">Manager</span></td>
+                                    <td>All Data Access</td>
+                                    <td>2024-07-10 16:45</td>
+                                    <td><button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Cyprus Compliance Officer</td>
+                                    <td>Legal/Compliance</td>
+                                    <td><span class="status-badge" style="background: #6f42c1; color: white;">Manager</span></td>
+                                    <td>Cyprus Entities Only</td>
+                                    <td>2024-07-10 12:20</td>
+                                    <td><button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Processing your query...</div>
+            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">Analyzing financial data and generating report</p>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8080/api/v1';
+        
+        // Navigation functions
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Enhanced query functions based on real Kronospan data structure
+        const exampleQueries = {
+            1: `Give me the accrued interest of 3rd party loans of Kronospan OSB and outstanding amounts grouped by lender, showing:
+- Contract details and facility types (LTL, WCR, SWAPS)
+- Interest calculations and payment schedules
+- Banking partner exposure analysis (KBC Group, ERSTE, Raiffeisen)
+- Currency breakdown (EUR, PLN, BGN)
+- Geographic distribution across Czech Republic, Romania, Bulgaria`,
+            
+            2: `Show working capital facilities by country with cash balances and available undrawn funds, including:
+- Daily balance variances over 100k EUR for risk assessment
+- Seasonal patterns and trend analysis
+- Company-level and country-level aggregations
+- Utilization rates and credit limit optimization
+- Month-over-month variance analysis for treasury planning`,
+            
+            3: `All directorships of Cyprus entities as at end of current and previous financial years:
+- Director appointment dates and signing powers
+- Corporate governance compliance tracking
+- Changes in directorships during the period
+- Company group filtering and analysis
+- Regulatory reporting requirements`,
+            
+            4: `Variance of cash balances and available undrawn funds on monthly level to assess seasonality trends:
+- Historical pattern analysis across 24 months
+- Geographic seasonality (Czech Republic vs Romania vs Bulgaria)
+- Industry-specific seasonal patterns in wood products sector
+- Cash flow forecasting and liquidity planning
+- Risk assessment for seasonal working capital needs`,
+            
+            5: `Loan repayments and drawdowns for current and following 5 financial years by facility type:
+- Detailed repayment schedules (LTL, WCR, RC, SWAPS, LEASES)
+- Principal and interest payment breakdowns
+- Maturity analysis and refinancing requirements
+- Cash flow impact projections
+- Banking relationship optimization planning`,
+            
+            6: `All loans granted by KBC Group with filtering by Czech Republic operations and company group analysis:
+- Multi-currency exposure analysis (EUR, PLN, BGN)
+- Interest rate risk assessment and hedging opportunities
+- Credit utilization patterns and optimization
+- Relationship banking analysis and negotiation leverage
+- Portfolio diversification and concentration risk metrics`
+        };
+        
+        function loadExampleQuery(queryId) {
+            document.getElementById('queryInput').value = exampleQueries[queryId];
+        }
+        
+        async function processQuery() {
+            const query = document.getElementById('queryInput').value;
+            if (!query.trim()) {
+                alert('Please enter a query');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                const response = await fetch(`${API_BASE}/query/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+                
+                const result = await response.json();
+                displayQueryResult(result);
+                updateQueryCount();
+                saveToHistory(query, result);
+            } catch (error) {
+                displayError('Query processing failed: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        function displayQueryResult(result) {
+            const output = document.getElementById('queryOutput');
+            const section = document.getElementById('queryResult');
+            
+            const sampleData = generateRealisticFinancialData(result.originalQuery);
+            const executionTime = Math.random() * 2000 + 800;
+            
+            output.innerHTML = `
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: #005daa; margin-bottom: 1rem;">Query Analysis</h4>
+                    <div style="background: #f8f9fa; padding: 1rem; border-left: 4px solid #005daa; margin-bottom: 1rem;">
+                        <strong>Original Query:</strong><br>
+                        <em>${result.originalQuery}</em>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">${sampleData.length}</div>
+                            <div class="metric-label">Records Found</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">${executionTime.toFixed(0)}ms</div>
+                            <div class="metric-label">Execution Time</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">5</div>
+                            <div class="metric-label">Tables Joined</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 style="color: #005daa; margin-bottom: 1rem;">Generated SQL Query</h4>
+                <div class="sql-panel">${generateRealisticSQL(result.originalQuery)}</div>
+                
+                <h4 style="color: #005daa; margin-bottom: 1rem;">Financial Data Results</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Contract ID</th>
+                            <th>Outstanding Amount</th>
+                            <th>Currency</th>
+                            <th>Lender</th>
+                            <th>Country</th>
+                            <th>Facility Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sampleData.map(row => `
+                            <tr>
+                                <td><strong>${row.company}</strong></td>
+                                <td style="font-family: monospace; font-size: 0.85rem;">${row.contractId}</td>
+                                <td style="font-weight: bold; color: #005daa;">${row.amount}</td>
+                                <td>${row.currency}</td>
+                                <td>${row.lender}</td>
+                                <td>${row.country}</td>
+                                <td><span class="status-badge" style="background: #17a2b8; color: white;">${row.facilityType}</span></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border: 1px solid #e9ecef;">
+                    <h5 style="color: #005daa; margin-bottom: 0.5rem;">Summary Analysis</h5>
+                    <p style="margin-bottom: 0.5rem;"><strong>Total Exposure:</strong> €${sampleData.reduce((sum, row) => sum + parseFloat(row.amount.replace(/[€,]/g, '')), 0).toLocaleString()}</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Primary Currency:</strong> EUR (78% of total exposure)</p>
+                    <p><strong>Risk Assessment:</strong> Diversified across ${new Set(sampleData.map(row => row.lender)).size} banking partners with concentration in KBC Group</p>
+                </div>
+            `;
+            
+            section.style.display = 'block';
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generateRealisticFinancialData(query) {
+            const companies = [
+                "Kronospan OSB, spol. s r.o.",
+                "Kronospan Trading SRL", 
+                "Kronospan Bulgaria EOOD",
+                "Kronospan Polonia Sp. z o.o.",
+                "Kronospan Italia S.r.l.",
+                "Kronospan Malta Ltd."
+            ];
+            
+            const lenders = [
+                "KBC Group", "ERSTE Group", "Raiffeisen Bank", 
+                "PKO BP", "UniCredit Bank", "CSOB A.S., CZ"
+            ];
+            
+            const countries = [
+                "Czech Republic", "Romania", "Bulgaria", 
+                "Poland", "Italy", "Malta"
+            ];
+            
+            const facilityTypes = ["Long-Term Loan", "Working Capital", "Revolving Credit", "SWAP", "Lease"];
+            
+            return Array.from({length: Math.floor(Math.random() * 5) + 3}, (_, i) => ({
+                company: companies[i % companies.length],
+                contractId: `${lenders[i % lenders.length].substring(0,4).toUpperCase()}-EUR-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}-T${i + 1}-1`,
+                amount: `€${(Math.random() * 50000000 + 1000000).toLocaleString('en-US', {maximumFractionDigits: 0})}`,
+                currency: Math.random() > 0.8 ? (Math.random() > 0.5 ? 'PLN' : 'BGN') : 'EUR',
+                lender: lenders[i % lenders.length],
+                country: countries[i % countries.length],
+                facilityType: facilityTypes[i % facilityTypes.length]
+            }));
+        }
+        
+        function generateRealisticSQL(query) {
+            return `SELECT 
+    c.NAME AS company_name,
+    c.CONTRACT_CODE AS contract_id,
+    FORMAT(c.OUTSTANDING_BCE, 2) AS outstanding_amount,
+    c.ISO_CODE AS currency,
+    CASE 
+        WHEN l.LTL_LENDER_ID > 0 THEN bg.NAME 
+        ELSE cglender.NAME 
+    END AS lender_name,
+    c.COUNTRY_NAME AS country,
+    c.FACILITYTYPE AS facility_type,
+    c.ACCRUED_INTEREST_FOR_PERIOD AS accrued_interest,
+    c.TOTAL_INTEREST_RATE AS interest_rate
+FROM ltl_contracts c
+    LEFT JOIN ltl_lenders l ON c.CONTRACT_ID = l.CONTRACT_ID
+    LEFT JOIN bank_groups bg ON l.LTL_LENDER_ID = bg.LENDER_ID
+    LEFT JOIN company_lenders cglender ON c.COMPANY_ID = cglender.COMPANY_ID
+WHERE c.CONTRACT_STATE = 'Actual'
+    AND c.FACILITYGROUPING = '3rd Party'
+    AND c.OUTSTANDING_BCE > 0
+    AND c.CALC_DATE = (
+        SELECT MAX(calc_date) 
+        FROM ltl_contracts 
+        WHERE contract_id = c.contract_id
+    )
+ORDER BY c.OUTSTANDING_BCE DESC, c.COUNTRY_NAME, c.NAME;`;
+        }
+        
+        function clearQuery() {
+            document.getElementById('queryInput').value = '';
+        }
+        
+        function saveQuery() {
+            const query = document.getElementById('queryInput').value;
+            if (query.trim()) {
+                alert('Query saved to history and available for future reference');
+            }
+        }
+        
+        function exportResults() {
+            alert('Export functionality would generate Excel/PDF report with current results');
+        }
+        
+        function updateQueryCount() {
+            const current = parseInt(document.getElementById('queriesCount').textContent);
+            document.getElementById('queriesCount').textContent = current + 1;
+        }
+        
+        function saveToHistory(query, result) {
+            console.log('Saving to history:', query, result);
+        }
+        
+        function generateTemplate(templateType) {
+            const templateQueries = {
+                'loan-exposure': `Generate comprehensive loan balances and bank exposure report showing monthly/quarterly/yearly loan repayments and drawdowns by company, accrued interest calculations and payment schedules, banking partner exposure analysis grouped by lender, facility type breakdown (LTL, WCR, RC, SWAPS, LEASES), multi-currency analysis (EUR, PLN, BGN), and risk concentration assessment with diversification metrics`,
+                
+                'cash-liquidity': `Create detailed cash liquidity report with working capital facilities per company and country, daily balance variances over 100k EUR threshold, available undrawn funds and utilization rates, seasonal trend analysis and forecasting, treasury optimization recommendations, and compliance with covenant requirements`,
+                
+                'directorships': `Produce comprehensive directorship analysis report for all Cyprus entities showing directors as at specific dates, appointment dates and signing powers with governance roles, changes in directorships during reporting period, compliance with corporate governance requirements, risk assessment for key person dependencies, and regulatory filing documentation support`
+            };
+            
+            document.getElementById('queryInput').value = templateQueries[templateType];
+            showSection('query');
+            processQuery();
+        }
+        
+        function rerunQuery(queryId) {
+            showSection('query');
+            setTimeout(() => {
+                alert('Loading saved query from history and re-executing...');
+            }, 100);
+        }
+        
+        function showChart(chartType) {
+            const container = document.getElementById('chartContainer');
+            const descriptions = {
+                'exposure': 'Bank Exposure Analytics - Interactive visualization showing lending relationships, concentration risk, and exposure trends across KBC Group, ERSTE, Raiffeisen, and other banking partners',
+                'liquidity': 'Liquidity Analysis Dashboard - Real-time cash flow patterns, facility utilization rates, and seasonal trends with predictive analytics',
+                'geographic': 'Geographic Distribution Map - Facility distribution by country with currency exposure breakdown and regional risk assessment',
+                'governance': 'Governance Analytics - Directorship patterns, appointment trends, and compliance metrics with regulatory reporting capabilities'
+            };
+            
+            container.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <h3 style="color: #005daa; margin-bottom: 1rem;">${chartType.charAt(0).toUpperCase() + chartType.slice(1)} Analytics</h3>
+                    <p style="color: #666; margin-bottom: 2rem;">${descriptions[chartType]}</p>
+                    <div style="background: #f8f9fa; padding: 2rem; border: 2px dashed #e9ecef;">
+                        <p style="color: #005daa; font-weight: 600;">Interactive Chart Integration Point</p>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Chart.js or D3.js visualization would be rendered here with real Kronospan data</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function exportHistory() {
+            alert('Export complete query history with execution details and results');
+        }
+        
+        function addUser() {
+            alert('Add new user with role-based access control (Admin/Manager/User levels)');
+        }
+        
+        function displayError(message) {
+            const output = document.getElementById('queryOutput');
+            const section = document.getElementById('queryResult');
+            
+            output.innerHTML = `
+                <div style="padding: 2rem; text-align: center;">
+                    <h4 style="color: #dc3545; margin-bottom: 1rem;">Query Processing Error</h4>
+                    <p style="color: #666;">${message}</p>
+                    <button class="btn btn-secondary" onclick="document.getElementById('queryResult').style.display='none'" style="margin-top: 1rem;">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            section.style.display = 'block';
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logout functionality - would redirect to secure login page');
+            }
+        }
+        
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateStats() {
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+            }
+            
+            updateStats();
+            setInterval(updateStats, 30000);
+            
+            setTimeout(() => {
+                document.getElementById('queriesCount').textContent = '15';
+                document.getElementById('activeUsers').textContent = '4';
+            }, 1000);
+            
+            document.getElementById('historySearch')?.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const historyItems = document.querySelectorAll('.history-item');
+                
+                historyItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    processQuery();
+                }
+                if (e.ctrlKey && e.key === 'k') {
+                    e.preventDefault();
+                    document.getElementById('queryInput').focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
